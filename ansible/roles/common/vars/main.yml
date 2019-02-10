@@ -1,0 +1,59 @@
+---
+# vars file for common
+additionnal_users:
+  - root
+vim_bundle_folder: /opt/vim/bundle
+vimrc_path: /opt/vim/vimrc
+vim_plugins:
+  - name: 'Vundle'
+    id: 'VundleVim/Vundle.vim'
+    comment: 'let Vundle manage Vundle, required'
+    options:
+      - 'nnoremap <C-n> :NERDTreeToggle<CR>'
+      - 'let NERDTreeShowHidden = 1'
+  - name: 'Vim-fugitive'
+    id: 'tpope/vim-fugitive'
+    comment: 'git wrapper'
+  - name: 'NERDTree'
+    id: 'scrooloose/nerdtree'
+    comment: 'file system explorer'
+  - name: 'Airline'
+    id: 'vim-airline/vim-airline'
+    comment: 'status bar'
+    options:
+      - 'let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers'
+      - 'let g:airline#extensions#tabline#fnamemod = '':t'' " Show just the filename'
+      - 'let g:airline_theme=''pablo'' " Sets the airline theme'
+  - name: 'Tmux'
+    id: 'tmux-plugins/vim-tmux-focus-events'
+    comment: 'Autoreload with tmux'
+  - name: 'ALE'
+    id: 'w0rp/ale'
+    comment: 'ALE (Asynchronous Lint Engine) is a plugin to provide linting'
+  - name: 'Emmet'
+    id: 'mattn/emmet-vim'
+    comment: 'HTML snippets'
+    options:
+      - 'let g:user_emmet_install_global = 0'
+      - "let g:user_emmet_settings = { 'javascript.jsx' : { 'extends' : 'jsx', }, }"
+      - 'autocmd FileType html,css,js,javascript.jsx,twig,php,markdown,html.twig,htmldjango.twig,xml EmmetInstall'
+  - name: 'Vim-JSX'
+    id: 'mxw/vim-jsx'
+    comment: 'JSX syntax highlighting'
+  - name: 'Vim-twig'
+    id: 'lumiliet/vim-twig'
+    comment: 'Twig syntax highlighting'
+  - name: 'ctrlp'
+    id: 'ctrlpvim/ctrlp.vim'
+    comment: 'Fuzzy finder'
+    options:
+      - let g:ctrlp_map = '<c-p>'
+      - let g:ctrlp_cmd = 'CtrlP'
+      - let g:ctrlp_show_hidden = 1
+  - name: 'EditorConfig'
+    id: 'editorconfig/editorconfig-vim'
+    comment: 'Editor configuration sharing'
+    options:
+      - let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+zsh_installation_folder: /opt/oh-my-zsh
+zsh_theme: gallois

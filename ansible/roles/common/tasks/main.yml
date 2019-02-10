@@ -1,0 +1,49 @@
+---
+# tasks file for common
+- name: Update package list
+  apt:
+    update_cache: yes
+- name: Upgrade all the packages
+  apt:
+    upgrade: dist
+- name: Install base packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - bash-completion
+    - git
+    - htop
+    - tmux
+    - vim
+    - zsh
+- name: Cloning oh-my-zsh
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh
+    dest: "{{ zsh_installation_folder }}"
+- command: ls /home
+  register: user_dirs
+- set_fact:
+    user_names: "{{ user_dirs.stdout_lines }}"
+- set_fact:
+    user_names: "{{ user_names + additionnal_users }}"
+- name: Configure shells
+  include_tasks: configure_shell.yml
+  loop: "{{ user_names }}"
+  loop_control:
+    loop_var: user
+- name: Cloning Vundle and other plugins
+  git:
+    repo: "https://github.com/{{ item.id }}"
+    dest: "{{ vim_bundle_folder }}/{{ item.id | basename }}"
+  with_items: "{{ vim_plugins }}"
+- name: Creating .vimrc
+  template:
+    src: ./templates/vimrc.j2
+    dest: "{{ vimrc_path }}"
+- name: Configure vim for users
+  include_tasks: configure_vim.yml
+  loop: "{{ user_names }}"
+  loop_control:
+    loop_var: user

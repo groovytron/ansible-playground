@@ -1,0 +1,66 @@
+set nocompatible " use vim and do not behave like vi
+filetype off " Deactivate filetype plugin temporarily
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+" Plugins
+call vundle#begin()
+{% for plugin in vim_plugins %}
+Plugin '{{ plugin.id }}'{% if plugin.comment is defined %} " {{ plugin.comment }}{% endif %}
+{% endfor %}
+call vundle#end()
+
+filetype plugin indent on " Enable filetype plugin again
+syntax on " Enable syntax highlighting
+set laststatus=2 " Always show the statusline
+set encoding=utf-8
+set number " Display line number
+set ts=4 sts=4 sw=4 expandtab " tab = 4 spaces for every file type
+" tab = 2 spaces for web programming languages, JSON, YAML and Markdown
+autocmd Filetype javascript,json,html,twig,html.twig,htmldjango.twig,ruby,yaml,css,scss,c,cpp,xml set ts=2 sts=2 sw=2 expandtab
+" Display whitespaces with specific characters
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<
+set list " Display white space characters
+set mouse=a " Enable mouse use (yeah it's bad)
+set cursorline " Higlight cursor's current line
+set splitbelow
+set pastetoggle=<F2>
+colorscheme pablo
+set background=dark
+
+{% for plugin in vim_plugins %}
+{% if plugin.options is defined %}
+" {{ plugin.name }}
+{% for line in plugin.options %}
+{{ line }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+" Buffers
+:command BufOnly %bd|e#<CR>
+
+" Window sizing
+:command WLarger vertical resize +10
+:command WThinner vertical resize-10
+:command WHigher resize +10
+:command WShorter resize +10
+
+" Syntax Higlighting for odd files extensions
+autocmd BufNewFile,BufRead *.twig set syntax=htmldjango.twig
+
+" File search
+set path+=**
+set wildmenu
+
+" Autoreload
+au FocusGained,BufEnter * :checktime " https://vi.stackexchange.com/questions/444/how-do-i-reload-the-current-file/13092#13092
+
+" Fixing Vim's Background Color Erase for 256-color tmux and GNU screen
+" (https://sunaku.github.io/vim-256color-bce.html)
+set t_ut=
+
+" urxvt transparency hack
+if $TERM == "rxvt-unicode-256color"
+    hi Normal ctermbg=NONE
+endif

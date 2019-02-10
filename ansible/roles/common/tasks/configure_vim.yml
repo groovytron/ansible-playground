@@ -1,0 +1,31 @@
+---
+# tasks file for common vim configuration
+- command: "echo ~{{ user }}"
+  register: user_home
+- set_fact:
+    user_home: "{{ user_home.stdout }}"
+- name: Creating new ~/.vimrc for user
+  copy:
+    src: "{{ vimrc_path }}"
+    dest: "{{ user_home }}/.vimrc"
+    remote_src: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=r,o=r
+- set_fact:
+    vim_folder: "{{ user_home }}/.vim"
+- file:
+    path: "{{ vim_folder }}/bundle"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=r,o=r
+- name: Installing Vundle
+  command: "cp -r {{ vim_bundle_folder }} {{ vim_folder }}/"
+- name: Fix permissions
+  file:
+    path: "{{ vim_folder }}"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=r,o=r
+    recurse: yes

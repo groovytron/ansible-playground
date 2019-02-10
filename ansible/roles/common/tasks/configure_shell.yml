@@ -1,0 +1,35 @@
+---
+# tasks file for common shells configuration
+- command: "echo ~{{ user }}"
+  register: user_home
+- set_fact:
+    user_home: "{{ user_home.stdout }}"
+- name: Creating new ~/.bashrc for user
+  template:
+    src: ./templates/bashrc.j2
+    dest: "{{ user_home }}/.bashrc"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=r,o=r
+- name: Creating new ~/.zshrc for user
+  template:
+    src: ./templates/zshrc.j2
+    dest: "{{ user_home }}/.zshrc"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=r,o=r
+- name: Creating banner for user
+  copy:
+    src: ./files/banner.sh
+    dest: "{{ user_home }}/banner.sh"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: u=rwx,g=r,o=r
+- command: which zsh
+  register: zsh_bin_path
+- set_fact:
+    zsh_bin_path: "{{ zsh_bin_path.stdout }}"
+- name: Set ZSH as default user shell
+  user:
+    name: "{{ user }}"
+    shell: "{{ zsh_bin_path }}"
