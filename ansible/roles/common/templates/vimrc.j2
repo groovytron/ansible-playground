@@ -7,6 +7,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 {% for plugin in vim_plugins %}
 Plugin '{{ plugin.id }}'{% if plugin.comment is defined %} " {{ plugin.comment }}{% endif %}
+
 {% endfor %}
 call vundle#end()
 
