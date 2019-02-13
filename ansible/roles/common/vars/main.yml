@@ -1,7 +1,5 @@
 ---
 # vars file for common
-additionnal_users:
-  - root
 vim_bundle_folder: /opt/vim/bundle
 vimrc_path: /opt/vim/vimrc
 vim_plugins:
@@ -55,4 +53,3 @@ vim_plugins:
     options:
       - let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 zsh_installation_folder: /opt/oh-my-zsh
-zsh_theme: gallois

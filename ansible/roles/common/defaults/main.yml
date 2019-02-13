@@ -1,2 +1,5 @@
 ---
 # defaults file for common
+additionnal_users:
+  - root
+zsh_theme: gallois

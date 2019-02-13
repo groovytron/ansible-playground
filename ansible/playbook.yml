@@ -2,6 +2,8 @@
 - hosts: all
   roles:
     - common
-  remote_user: vagrant
+  vars:
+    - additionnal_locales:
+      - fr_CH.UTF-8
+  remote_user: root
   become: yes
-  become_method: sudo

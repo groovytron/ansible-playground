@@ -1,23 +1,5 @@
 ---
 # tasks file for common
-- name: Update package list
-  apt:
-    update_cache: yes
-- name: Upgrade all the packages
-  apt:
-    upgrade: dist
-- name: Install base packages
-  apt:
-    name: "{{ packages }}"
-    state: present
-  vars:
-    packages:
-    - bash-completion
-    - git
-    - htop
-    - tmux
-    - vim
-    - zsh
 - name: Cloning oh-my-zsh
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh
