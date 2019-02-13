@@ -1,0 +1,45 @@
+---
+# tasks file for sentry
+# - name: Update package list
+#   apt:
+#     update_cache: yes
+# - name: Upgrade all the packages
+#   apt:
+#     upgrade: dist
+# - name: Install base packages
+#   apt:
+#     name: "{{ packages }}"
+#     state: present
+#   vars:
+#     packages:
+#       - gcc
+#       - libffi-dev
+#       - libjpeg-dev
+#       - libpq-dev 
+#       - libxml2-dev
+#       - libxslt-dev
+#       - libxslt1-dev
+#       - libyaml-dev
+#       - python-dev
+#       - python-pip
+#       - python-setuptools
+# - name: Install virtualenv
+#   pip:
+#     name: virtualenv
+#     extra_args: --upgrade
+#     executable: pip2
+# - name: Create Python virtual environment
+#   command: "python2 -m virtualenv {{ sentry_venv_path }}"
+# - name: Install Sentry
+#   pip:
+#     name: sentry
+#     extra_args: --upgrade
+#     virtualenv: "{{ sentry_venv_path }}"
+- name: Creating Sentry config.yml
+  template:
+    src: ./templates/config.yml.j2
+    dest: "{{ sentry_config_path }}/config.yml"
+- name: Creating Sentry conf.py
+  template:
+    src: ./templates/sentry.conf.py.j2
+    dest: "{{ sentry_config_path }}/sentry.conf.py"

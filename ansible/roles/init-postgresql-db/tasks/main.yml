@@ -1,0 +1,17 @@
+---
+# tasks file for init-postgresql-db
+- name: Create database user
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "{{ database_username }}"
+    password: "{{ database_password }}"
+- name: Create database for user
+  become_user: postgres
+  postgresql_db:
+    owner: "{{ database_username }}"
+    name: "{{ database_name }}"
+    encoding: "{{ database_encoding }}"
+    lc_collate: "en_US.{{ database_encoding }}"
+    lc_ctype: "en_US.{{ database_encoding }}"
+    template: template0

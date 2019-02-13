@@ -1,0 +1,10 @@
+---
+# tasks file for postgresql
+- name: Install base packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - postgresql
+    - python-psycopg2

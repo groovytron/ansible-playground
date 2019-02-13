@@ -1,0 +1,6 @@
+---
+# defaults file for init-postgresql-db
+database_username: database_user
+database_name: database_name
+database_password: database_password
+database_encoding: UTF-8

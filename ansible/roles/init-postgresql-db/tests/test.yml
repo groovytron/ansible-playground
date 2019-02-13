@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  remote_user: postgres
+  roles:
+    - init-postgresql-db

@@ -1,0 +1,7 @@
+---
+# handlers file for postgresql
+- name: Make sure a postgres is running
+  systemd:
+    enabled: yes
+    state: started
+    name: postgresql

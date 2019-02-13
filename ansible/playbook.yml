@@ -1,9 +1,18 @@
 ---
 - hosts: all
   roles:
-    - common
+    - postgresql
   vars:
     - additionnal_locales:
       - fr_CH.UTF-8
   remote_user: root
   become: yes
+- hosts: all
+  roles:
+    - role: init-postgresql-db
+      database_username: senty
+      database_name: sentry
+      database_password: sentry
+  remote_user: postgresql
+  become: yes
+  become_method: sudo
