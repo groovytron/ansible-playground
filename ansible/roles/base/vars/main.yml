@@ -1,0 +1,4 @@
+---
+# vars file for base
+default_locales:
+  - en_US.UTF-8

@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: base
+      additionnal_locales:
+        - fr_CH.UTF-8

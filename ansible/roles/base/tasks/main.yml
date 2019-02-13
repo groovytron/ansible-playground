@@ -1,0 +1,29 @@
+---
+# tasks file for base
+- name: Update package list
+  apt:
+    update_cache: yes
+- name: Upgrade all the packages
+  apt:
+    upgrade: dist
+- name: Install base packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - bash
+      - bash-completion
+      - git
+      - htop
+      - tmux
+      - vim
+      - zsh
+- name: Merge locales list
+  set_fact:
+    locales_to_enable: "{{ additionnal_locales + default_locales }}"
+- name: Ensure the locales exist
+  locale_gen:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ locales_to_enable }}"
