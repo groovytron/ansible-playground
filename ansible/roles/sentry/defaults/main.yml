@@ -1,2 +1,25 @@
 ---
 # defaults file for sentry
+sentry_venv_path: /var/www/sentry/venv
+sentry_config_path: /etc/sentry
+# Sentry SMTP
+sentry_mail_backend: 'smtp'  # Use dummy if you want to disable email entirely
+sentry_mail_host: 'localhost'
+sentry_mail_port: 25
+sentry_mail_username: ''
+sentry_mail_password: ''
+sentry_mail_use_tls: false
+sentry_mail_from: 'root@localhost'
+# Sentry database
+sentry_database_name: sentry
+sentry_database_user: sentry
+sentry_database_password: sentry
+sentry_database_host: localhost
+sentry_database_port: 5432
+# Sentry redis
+sentry_redis_host: localhost
+sentry_redis_port: 6379
+# Sentry HTTP
+sentry_web_port: 9000
+# Sentry files
+sentry_filestore_location: /tmp/sentry-files
