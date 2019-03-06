@@ -1,6 +1,7 @@
 ---
 # defaults file for sentry
-sentry_venv_path: /var/www/sentry/venv
+sentry_app_path: /var/www/sentry
+# sentry_venv_path: /var/www/sentry/venv
 sentry_config_path: /etc/sentry
 # Sentry SMTP
 sentry_mail_backend: 'smtp'  # Use dummy if you want to disable email entirely

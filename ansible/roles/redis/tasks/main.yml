@@ -1,0 +1,6 @@
+---
+# tasks file for redis
+- name: Install Redis server
+  apt:
+    name: redis-server
+    state: present

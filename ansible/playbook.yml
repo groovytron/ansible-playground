@@ -1,18 +1,32 @@
 ---
 - hosts: all
   roles:
+    - base
+    - redis
     - postgresql
   vars:
-    - additionnal_locales:
+    additionnal_locales:
       - fr_CH.UTF-8
   remote_user: root
   become: yes
 - hosts: all
   roles:
     - role: init-postgresql-db
-      database_username: senty
+      database_username: sentry
       database_name: sentry
       database_password: sentry
   remote_user: postgresql
   become: yes
   become_method: sudo
+- hosts: all
+  roles:
+    - sentry
+  vars:
+    sentry_mail_backend: 'dummy'
+    sentry_database_name: sentry
+    sentry_database_user: sentry
+    sentry_database_password: sentry
+    sentry_admin_email: 'demo_sentry@example.com'
+    sentry_admin_password: 'put4S0lidPassword!'
+  remote_user: root
+  become: yes

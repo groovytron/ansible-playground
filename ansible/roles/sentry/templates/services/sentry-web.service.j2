@@ -1,0 +1,16 @@
+[Unit]
+Description=Sentry Main Service
+After=network.target
+Requires=sentry-worker.service
+Requires=sentry-cron.service
+
+[Service]
+Type=simple
+User=sentry
+Group=sentry
+{% include 'services/sentry-variables.service.j2' %}
+
+ExecStart={{ sentry_venv_path }}/bin/sentry run web
+
+[Install]
+WantedBy=multi-user.target

@@ -17,11 +17,21 @@
       - python-dev
       - python-pip
       - python-setuptools
+- name: Ensure group "sentry" exists
+  group:
+    name: sentry
+    state: present
+- name: Create Sentry Unix user
+  user:
+    name: sentry
+    group: sentry
 - name: Install virtualenv
   pip:
     name: virtualenv
     extra_args: --upgrade
     executable: pip2
+- set_fact:
+    sentry_venv_path: "{{ sentry_app_path }}/venv"
 - name: Create Python virtual environment
   command: "python2 -m virtualenv {{ sentry_venv_path }}"
 - name: Install Sentry
@@ -29,6 +39,10 @@
     name: sentry
     extra_args: --upgrade
     virtualenv: "{{ sentry_venv_path }}"
+- name: Create Sentry configuration directory
+  file:
+    path: "{{ sentry_config_path }}"
+    state: directory
 - name: Creating Sentry config.yml
   template:
     src: ./templates/config.yml.j2
@@ -37,3 +51,34 @@
   template:
     src: ./templates/sentry.conf.py.j2
     dest: "{{ sentry_config_path }}/sentry.conf.py"
+- name: Set sentry user as owner for the application and the configuration files
+  file:
+    path: "{{ item }}"
+    group: sentry
+    mode: "u=rwx,g=rx,o=r"
+    recurse: yes
+  with_items:
+    - "{{ sentry_config_path }}"
+    - "{{ sentry_app_path }}"
+- name: Create intial tables
+  command: "./bin/sentry --config {{ sentry_config_path }} upgrade --noinput"
+  args:
+    chdir: "{{ sentry_venv_path }}/"
+- name: Create intial super user
+  command: "./bin/sentry --config {{ sentry_config_path }} createuser --email {{ sentry_admin_email }} --password {{ sentry_admin_password}} --superuser --no-input"
+  args:
+    chdir: "{{ sentry_venv_path }}/"
+- name: Create sentry-web service
+  template:
+    src: ./templates/services/sentry-web.service.j2
+    dest: /etc/systemd/system/sentry-web.service
+- name: Create sentry-worker service
+  template:
+    src: ./templates/services/sentry-worker.service.j2
+    dest: /etc/systemd/system/sentry-worker.service
+- name: Create sentry-cron service
+  template:
+    src: ./templates/services/sentry-cron.service.j2
+    dest: /etc/systemd/system/sentry-cron.service
+  notify:
+    - "start sentry"

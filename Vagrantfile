@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 9000, host: 9090
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -58,6 +58,11 @@ Vagrant.configure("2") do |config|
   #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
   # end
+  config.vm.provider "libvirt" do |libvirt|
+    # Customize the amount of memory on the VM:
+    libvirt.memory = "4096"
+    libvirt.cpus = "2"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -66,7 +71,7 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "ansible" do |ansible|
-    ansible.compatibility_mode = "2.0"
+    ansible.compatibility_mode = "auto"
     ansible.playbook = "ansible/playbook.yml"
   end
 end

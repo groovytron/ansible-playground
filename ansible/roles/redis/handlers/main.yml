@@ -1,0 +1,7 @@
+---
+# handlers file for redis
+- name: Make sure a Redis is running
+  systemd:
+    enabled: yes
+    state: started
+    name: redis

@@ -1,0 +1,14 @@
+[Unit]
+Description=Sentry Beat Service
+After=network.target
+
+[Service]
+Type=simple
+User=sentry
+Group=sentry
+{% include 'services/sentry-variables.service.j2' %}
+
+ExecStart={{ sentry_venv_path }}/bin/sentry run cron
+
+[Install]
+WantedBy=multi-user.target

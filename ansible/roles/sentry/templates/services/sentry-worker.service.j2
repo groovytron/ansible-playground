@@ -1,0 +1,15 @@
+[Unit]
+Description=Sentry Background Worker
+After=network.target
+Requires=sentry-cron.service
+
+[Service]
+Type=simple
+User=sentry
+Group=sentry
+{% include 'services/sentry-variables.service.j2' %}
+
+ExecStart={{ sentry_venv_path }}/bin/sentry run worker
+
+[Install]
+WantedBy=multi-user.target

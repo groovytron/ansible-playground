@@ -1,2 +1,20 @@
 ---
 # handlers file for sentry
+- name: start sentry cron
+  systemd:
+    enabled: yes
+    state: started
+    name: sentry-cron
+  listen: "start sentry"
+- name: start sentry worker
+  systemd:
+    enabled: yes
+    state: started
+    name: sentry-worker
+  listen: "start sentry"
+- name: start sentry web
+  systemd:
+    enabled: yes
+    state: started
+    name: sentry-web
+  listen: "start sentry"
